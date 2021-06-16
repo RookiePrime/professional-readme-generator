@@ -1,4 +1,5 @@
 const inquirer = require('inquirer');
+const fs = require('fs');
 
 inquirer
     .prompt([
@@ -53,5 +54,8 @@ inquirer
         }
     ])
     .then(answer => {
-        console.log(answer);
+        fs.writeFile('./dist/README.md', JSON.stringify(answer), err => {
+            if (err) throw err;
+            else console.log('README.md printed!');
+        });
     });
