@@ -32,4 +32,6 @@ const copyFile = (directory, type) => {
     });
 };
 
-module.exports = { printFile, copyFile }
+const isImageFile = file => fs.statSync(file).isFile();
+
+module.exports = { printFile, copyFile, isImageFile }

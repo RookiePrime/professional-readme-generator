@@ -135,7 +135,9 @@ const remainder = [
         name: 'email',
         message: 'Please enter an email address that other users can contact you from.',
         validate: message => {
-            if (!message.includes('@') || !message.includes('.', 4)) {
+            const domain = message.slice(message.lastIndexOf('.'));
+
+            if (!message.includes('@') || (domain !== '.com' && domain !== '.ca' && domain !== '.org' && domain !== '.edu')) {
                 return 'Invalid email address. Please enter an email address that other users can contact you from.';
             } else {
                 return true;

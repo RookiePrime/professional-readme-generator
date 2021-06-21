@@ -1,10 +1,11 @@
 const inquirer = require('inquirer');
-const fs = require('fs');
-const generateReadme = require('./utils/generate-readme');
+const { printFile, isImageFile } = require('./utils/fsStuff');
+const generateReadme = require('./src/generate-readme');
 const questions = require('./utils/questions');
 
 const promptInitial = () => inquirer.prompt(questions.initial);
 
+// The installation prompt, allowing the user to add as many steps for installation as necessary
 const promptInstall = (answers, index) => {
     if (!answers.installation) {
         console.log(`
@@ -41,6 +42,7 @@ const promptInstall = (answers, index) => {
     });
 };
 
+// Checks to see if the user wants to put a preview image in their README. It also makes sure that their preview image is, in fact, an image file that they actually have on their computer.
 const promptImage = answers => {
     return inquirer.prompt([
         {
@@ -56,9 +58,9 @@ const promptImage = answers => {
             when: ({ confirmImage }) => confirmImage,
             validate: message => {
                 const type = message.slice(message.lastIndexOf('.'));
-                console.log(type === '.gif')
-                if (!fs.statSync(message).isFile()) {
-                    return 'Invalid directory. Please enter the directory of the desired image.'
+
+                if (!isImageFile(message)) {
+                    return 'Invalid directory. Please enter the directory of the desired image.';
                 } else if (type !== '.jpg' && type !== '.png' && type !== '.jpeg' && type !== '.svg' && type !== '.gif' && type !== '.bmp') {
                     return 'Invalid file selection. Please enter the directory of the desired image.';
                 } else {
@@ -72,6 +74,7 @@ const promptImage = answers => {
     });
 };
 
+// Asks the remaining simple questions to the user. These are things like usage guidelines, test guidelines, contribution methods, etc.
 const promptRemainder = answers => { 
     return inquirer.prompt(questions.remainder)
         .then(remainder => {
@@ -80,6 +83,7 @@ const promptRemainder = answers => {
         });
 };
 
+// Asks the user for their FAQ input. The user can add as many question and answer pairs as they want to their README.
 const promptFaq = answers => {
     if (!answers.faqs) {
         console.log(`
@@ -127,16 +131,20 @@ const promptFaq = answers => {
             });
 };
 
-// Step by step
+// Step by step. First, the questions begin;
 promptInitial()
+// Then, we go to questions about the installation process
     .then(answers => answers.confirmInstall ? promptInstall(answers, 0) : answers)
+// Then, we ask if the user wants a preview image
     .then(answers => promptImage(answers))
+// Then, we ask the remainder of the simpler-format questions
     .then(answers => promptRemainder(answers))
-    .then(answers => answers.confirmFaq ? promptFaq(answers) : answers)
+// Then, we ask if the user wants an FAQ
+    .then(answers => answers.remainder.confirmFaq ? promptFaq(answers) : answers)
+// Then, we generate the text based on their input
     .then(answers => generateReadme(answers))
+// Then, we print and save that text in a README.md file
     .then(readMeTemplate => {
-        fs.writeFile('./dist/README.md', readMeTemplate, err => {
-            if (err) throw err;
-            else console.log('README.md printed!');
-        });
+        printFile(readMeTemplate);
+        console.log('README.md printed!');
     });

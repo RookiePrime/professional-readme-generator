@@ -1,11 +1,11 @@
 // Badges are from here! https://gist.github.com/lukas-h/2a5d00690736b4c3a7ba
-const badges = require('./badges.json');
-const fsStuff = require('./fsStuff');
+const badges = require('../utils/badges.json');
+const { copyFile } = require('../utils/fsStuff');
 
 // This function takes the image directory and copies the file into the distribution folder, then returns that new directory for the benefit of the readme
 const imageUrl = image => {
     const type = image.slice(image.lastIndexOf('.'));
-    fsStuff.copyFile(image, type);
+    copyFile(image, type);
 
     return `./preview${type}`;
 };
@@ -79,7 +79,7 @@ ${confirmTest ? '- [Tests](#Tests)' : ''}
     // Putting the whole section together
     return `${beginning}
 
-![Preview image of the application](${imageUrl(image.image)})
+${image.confirmImage ? `![Preview image of the application](${imageUrl(image.image)})` : ''}
 
 ${tableOfContents}
 
