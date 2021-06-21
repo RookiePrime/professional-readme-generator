@@ -152,7 +152,4 @@ const remainder = [
     }
 ];
 
-module.exports = {
-    initial: initial,
-    remainder: remainder
-};
+module.exports = { remainder, initial };

@@ -60,3 +60,7 @@ diverse, inclusive, and healthy community.
 
 ## License
 This software is offered under the MIT License. For more information on conditions of use, [follow this link.](https://opensource.org/licenses/MIT).
+
+## Links
+[GitHub Repo](https://github.com/RookiePrime/professional-readme-generator/)
+[Video Demo](https://drive.google.com/file/d/10KMpyd_ScJjiGydpuJY4uWZKqjfsYn8h/view)
