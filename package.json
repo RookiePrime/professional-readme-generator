@@ -1,0 +1,28 @@
+{
+  "name": "professional-readme-generator",
+  "version": "1.0.0",
+  "description": "A helpful little app for creating a README.md for a project",
+  "main": "app.js",
+  "dependencies": {
+    "inquirer": "^8.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RookiePrime/professional-readme-generator.git"
+  },
+  "keywords": [
+    "readme",
+    "generator",
+    "node"
+  ],
+  "author": "RookiePrime",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RookiePrime/professional-readme-generator/issues"
+  },
+  "homepage": "https://github.com/RookiePrime/professional-readme-generator#readme"
+}
