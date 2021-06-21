@@ -19,7 +19,7 @@ const initial = [
             if (!message) {
                 return 'No text entered. Enter a description for your project.';
             } else {
-                return true
+                return true;
             }
         }
     },
@@ -28,13 +28,10 @@ const initial = [
         name: 'confirmInstall',
         message: 'Does your project need to be installed?',
         default: false
-    },
-    {
-        type: 'input',
-        name: 'installation',
-        message: 'Enter a step-by-step description of how to install your project.',
-        when: ({ confirmInstall }) => confirmInstall
-    },
+    }
+];
+
+const remainder = [
     {
         type: 'confirm',
         name: 'confirmUsage',
@@ -57,22 +54,29 @@ const initial = [
     },
     {
         type: 'confirm',
-        name: 'confirmContribution',
+        name: 'confirmContribute',
         message:'Do you want others to be able to contribute to this project?',
         default: false
     },
     {
+        type: 'checkbox',
+        name: 'contribute',
+        message: 'Which ways can someone contribute to this project?',
+        choices: ['Submit bugs and feature requests', 'Review source code changes', 'Write code and make pull requests', 'Other'],
+        when: ({ confirmContribute }) => confirmContribute,
+    },
+    {
         type: 'input',
-        name: 'contribution',
-        message: 'Enter any contribution guidelines you may have.',
+        name: 'contributionOther',
+        message: 'What other way can a user contribute?',
         validate: message => {
             if (!message) {
-                return 'No text entered. Enter any contribution guidelines you may have.'
+                return 'No text entered. What other way can a user contribute?';
             } else {
                 return true;
             }
         },
-        when: ({ confirmContribution }) => confirmContribution
+        when: ({ confirmContribute, contribute }) => confirmContribute ? contribute.includes('Other') : false   
     },
     {
         type: 'confirm',
@@ -86,7 +90,7 @@ const initial = [
         message: 'Enter any test instructions you may have.',
         validate: message => {
             if (!message) {
-                return 'No text entered. Enter any contribution guidelines you may have.'
+                return 'No text entered. Enter any contribution guidelines you may have.';
             } else {
                 return true;
             }
@@ -143,21 +147,10 @@ const initial = [
         name: 'confirmFaq',
         message: 'Do you want to answer any final questions a user or contributor may have?',
         default: false
-    },
-    {
-        type: 'input',
-        name: 'faq',
-        message: 'Enter any answers you wish to offer to users and contributors',
-        validate: message => {
-            if (!message) {
-                return 'No text entered. Please enter any answers you wish t offer to users and contributors';
-            } else {
-                return true;
-            }
-        }
     }
 ];
 
 module.exports = {
-    initial: initial
+    initial: initial,
+    remainder: remainder
 };
